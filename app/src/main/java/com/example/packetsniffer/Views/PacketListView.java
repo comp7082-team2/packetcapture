@@ -1,4 +1,4 @@
-package com.example.packetsniffer;
+package com.example.packetsniffer.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.example.packetsniffer.R;
 
 public class PacketListView extends AppCompatActivity {
 

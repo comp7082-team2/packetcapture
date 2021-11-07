@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Packetsniffer">
         <activity
-            android:name=".PacketListView"
+            android:name=".Views.PacketListView"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Views.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

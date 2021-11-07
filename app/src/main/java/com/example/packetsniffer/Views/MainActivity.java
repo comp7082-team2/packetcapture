@@ -1,10 +1,12 @@
-package com.example.packetsniffer;
+package com.example.packetsniffer.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.packetsniffer.R;
 
 public class MainActivity extends AppCompatActivity {
 
