@@ -43,7 +43,8 @@
                 android:id="@+id/btnImport"
                 android:layout_margin="10dp"
                 android:drawableBottom="@drawable/ic_baseline_import_export_24"
-                android:text="Import PCAP" />
+                android:text="Import PCAP"
+                android:onClick="click" />
 
             <Button
                 android:id="@+id/btnExport"
