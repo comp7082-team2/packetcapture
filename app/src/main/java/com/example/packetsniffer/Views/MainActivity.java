@@ -2,7 +2,6 @@ package com.example.packetsniffer.Views;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
