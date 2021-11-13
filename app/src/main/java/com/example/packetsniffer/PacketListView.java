@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.example.packetsniffer.data.Data;
 
 public class PacketListView extends AppCompatActivity {
 
@@ -27,13 +26,13 @@ public class PacketListView extends AppCompatActivity {
     protected RecyclerView mRecyclerView;
     protected CustomAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected String[] mDataset;
+    protected Data[] mDataset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packet_list_view);
-
+        new CustomAdapter(this);
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
 
@@ -65,8 +64,8 @@ public class PacketListView extends AppCompatActivity {
      */
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
+        //manager has already been set, get current scroll position.
+        // If a layout ma
         if (mRecyclerView.getLayoutManager() != null) {
             scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();
@@ -102,9 +101,9 @@ public class PacketListView extends AppCompatActivity {
      * from a local content provider or remote server.
      */
     private void initDataset() {
-        mDataset = new String[DATASET_COUNT];
+        mDataset = new Data[DATASET_COUNT];
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "This is element #" + i;
+            mDataset[i] = new Data("192.168.0.22:56278","192.168.0.23:443");
         }
     }
 }

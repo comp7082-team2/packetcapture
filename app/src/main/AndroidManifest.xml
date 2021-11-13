@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Packetsniffer">
         <activity
+            android:name=".PackInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".PacketListView"
             android:exported="true" />
         <activity
