@@ -4,10 +4,14 @@ import android.util.Log;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.pkts.PacketHandler;
 import io.pkts.Pcap;
 import io.pkts.filters.Filter;
+import io.pkts.packet.Packet;
+import io.pkts.protocol.Protocol;
 
 public class PcapRepository {
 
@@ -17,6 +21,7 @@ public class PcapRepository {
 
     private Pcap pcap;
 
+    private List<PcapEntry> entries;
 
     private PcapRepository() {
 
@@ -55,10 +60,44 @@ public class PcapRepository {
       }
     }
 
+    public List<PcapEntry> getEntries() {
+        if (entries == null) {
+            PacketListPacketHandler handler = new PacketListPacketHandler();
+            this.loopPcap(handler, null);
+            entries = handler.getPackets();
+        }
+        return entries;
+    }
+
     public static PcapRepository getInstance() {
         if (repository == null) {
             repository = new PcapRepository();
         }
         return repository;
+    }
+
+    private class PacketListPacketHandler implements PacketHandler {
+        private List<PcapEntry> packets;
+        PacketListPacketHandler() {
+            packets = new ArrayList<>();
+        }
+
+        @Override
+        public boolean nextPacket(Packet packet) throws IOException {
+            if (packet.hasProtocol(Protocol.TCP)) {
+                packets.add(new PcapEntry("TCP", packet.getArrivalTime(), packet));
+            } else if (packet.hasProtocol(Protocol.UDP)) {
+                packets.add(new PcapEntry("UDP", packet.getArrivalTime(), packet));
+            } else if (packet.hasProtocol(Protocol.ICMP)) {
+                packets.add(new PcapEntry("ICMP", packet.getArrivalTime(), packet));
+            } else {
+                packets.add(new PcapEntry("", packet.getArrivalTime(), packet));
+            }
+            return true;
+        }
+
+        public List<PcapEntry> getPackets() {
+            return packets;
+        }
     }
 }

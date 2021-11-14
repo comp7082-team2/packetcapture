@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Packet Capture</string>
+    <string name="app_name">Packet Analyzer</string>
     <string name="element_text">192.168.0.22:56278 > 192.168.0.23:443</string>
+    <string name="title_activity_packet_info">PacketInfoActivity</string>
 </resources>
