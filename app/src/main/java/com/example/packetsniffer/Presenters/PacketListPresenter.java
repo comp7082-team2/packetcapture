@@ -21,7 +21,11 @@ public class PacketListPresenter {
 
     public List<PcapEntry> loadPcap() {
         PacketListPacketHandler handler = new PacketListPacketHandler();
-        pcapRepository.loopPcap(handler, null);
+        try {
+            pcapRepository.loopPcap(handler, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return handler.getPackets();
     }
 
