@@ -1,4 +1,4 @@
-package com.example.packetsniffer;
+package com.example.packetsniffer.Views;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,9 +7,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.packetsniffer.Models.PcapEntry;
+import com.example.packetsniffer.R;
+
+import java.util.List;
+
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
-    private String[] localDataSet;
+    private List<PcapEntry> localDataSet;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -20,7 +25,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         public ViewHolder(View view) {
             super(view);
-            // Define click listener for the ViewHolder's View
+            // TODO: Set onClick listener to open detail view of packet
 
             textView = (TextView) view.findViewById(R.id.textView);
         }
@@ -36,33 +41,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public CustomAdapter(String[] dataSet) {
+    public CustomAdapter(List<PcapEntry> dataSet) {
         localDataSet = dataSet;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.text_row_item, viewGroup, false);
 
         return new ViewHolder(view);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        //viewHolder.getTextView().setText(localDataSet[position]);
+        PcapEntry entry = localDataSet.get(position);
+        String lineText = entry.getArrivalTime() + " " + entry.getProtocol();
+        viewHolder.getTextView().setText(lineText);
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }
 

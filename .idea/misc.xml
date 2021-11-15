@@ -9,6 +9,9 @@
         <entry key="..\:/ws/packetsniffer/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/layout/activity_packet_list_view.xml" value="0.1619047619047619" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/layout/text_row_item.xml" value="0.20520833333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/activity_packet_list_view.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/text_row_item.xml" value="0.21770833333333334" />
       </map>
     </option>
   </component>
