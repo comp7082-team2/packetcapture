@@ -12,6 +12,8 @@ import io.pkts.Pcap;
 import io.pkts.filters.Filter;
 import io.pkts.packet.Packet;
 import io.pkts.protocol.Protocol;
+import io.pkts.filters.FilterFactory;
+import io.pkts.filters.FilterParseException;
 
 public class PcapRepository {
 
@@ -22,6 +24,10 @@ public class PcapRepository {
     private Pcap pcap;
 
     private List<PcapEntry> entries;
+    private Filter filter;
+
+    private FilterFactory filterFactory = FilterFactory.getInstance();
+
 
     private PcapRepository() {
 
@@ -39,6 +45,12 @@ public class PcapRepository {
 
     public Pcap getPcap() {
         return pcap;
+    }
+
+    public void setFilter(String expression) throws FilterParseException {
+        if (expression != null && !expression.isEmpty()) {
+            this.filter = this.filterFactory.createFilter(expression);
+        }
     }
 
     public void loopPcap(PacketHandler handler, Filter filter) {
