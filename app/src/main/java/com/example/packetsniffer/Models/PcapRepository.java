@@ -2,6 +2,7 @@ package com.example.packetsniffer.Models;
 
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +14,7 @@ import io.pkts.filters.Filter;
 import io.pkts.packet.Packet;
 import io.pkts.protocol.Protocol;
 import io.pkts.filters.FilterFactory;
-import io.pkts.filters.FilterParseException;
 import io.pkts.framer.FramerManager;
-import io.pkts.packet.Packet;
 
 public class PcapRepository {
 
@@ -24,6 +23,8 @@ public class PcapRepository {
     private static String TAG = PcapRepository.class.getName();
 
     private Pcap pcap;
+
+    private String filename;
 
     private List<PcapEntry> entries;
     private Filter filter;
@@ -47,46 +48,25 @@ public class PcapRepository {
         }
     }
 
-    public Pcap getPcap() {
-        return pcap;
-    }
-
-    public void setFilter(String expression) throws FilterParseException {
-        if (expression != null && !expression.isEmpty()) {
-            this.filter = this.filterFactory.createFilter(expression);
-        }
-    }
-
-    public void loopPcap(PacketHandler handler, String filterExpression) throws IOException {
+    public void loopPcap(PacketListPacketHandler handler, Filter filter) throws IOException {
         if (pcap == null) {
             return;
         }
-      if (filter == null) {
-          try {
-              pcap.loop(handler);
-          } catch (IOException e) {
-              Log.e(TAG, "Error looping over pcap", e);
-          }
-      } else {
-           setFilter(filterExpression);
-           pcap.loop(new PacketHandler() {
-               @Override
-               public boolean nextPacket(final Packet packet) {
-                   if (filter != null && filter.accept(packet)) {
-                       System.out.println(packet.getPayload());
-                   }
-                   return false;
-               }
-           });
-      }
+        handler.setFilter(filter);
+        if(filename != null) {
+            readPcap(filename);
+        }
+        pcap.loop(handler);
     }
 
-    public List<PcapEntry> getEntries() {
-        if (entries == null) {
-            PacketListPacketHandler handler = new PacketListPacketHandler();
-            this.loopPcap(handler, null);
-            entries = handler.getPackets();
+    public List<PcapEntry> getEntries(Filter filter) {
+        PacketListPacketHandler handler = new PacketListPacketHandler();
+        try {
+            this.loopPcap(handler, filter);
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage(), e);
         }
+        entries = handler.getPackets();
         return entries;
     }
 
@@ -97,28 +77,40 @@ public class PcapRepository {
         return repository;
     }
 
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     private class PacketListPacketHandler implements PacketHandler {
         private List<PcapEntry> packets;
+        private Filter filter;
         PacketListPacketHandler() {
             packets = new ArrayList<>();
+            filter = null;
         }
 
         @Override
         public boolean nextPacket(Packet packet) throws IOException {
-            if (packet.hasProtocol(Protocol.TCP)) {
-                packets.add(new PcapEntry("TCP", packet.getArrivalTime(), packet));
-            } else if (packet.hasProtocol(Protocol.UDP)) {
-                packets.add(new PcapEntry("UDP", packet.getArrivalTime(), packet));
-            } else if (packet.hasProtocol(Protocol.ICMP)) {
-                packets.add(new PcapEntry("ICMP", packet.getArrivalTime(), packet));
-            } else {
-                packets.add(new PcapEntry("", packet.getArrivalTime(), packet));
+            if (filter == null || filter.accept(packet)) {
+                if (packet.hasProtocol(Protocol.TCP)) {
+                    packets.add(new PcapEntry("TCP", packet.getArrivalTime(), packet));
+                } else if (packet.hasProtocol(Protocol.UDP)) {
+                    packets.add(new PcapEntry("UDP", packet.getArrivalTime(), packet));
+                } else if (packet.hasProtocol(Protocol.ICMP)) {
+                    packets.add(new PcapEntry("ICMP", packet.getArrivalTime(), packet));
+                } else {
+                    packets.add(new PcapEntry("", packet.getArrivalTime(), packet));
+                }
             }
             return true;
         }
 
         public List<PcapEntry> getPackets() {
             return packets;
+        }
+
+        public void setFilter(Filter filter) {
+            this.filter = filter;
         }
     }
 }

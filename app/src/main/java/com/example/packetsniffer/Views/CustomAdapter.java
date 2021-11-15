@@ -98,6 +98,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         });
     }
 
+    public void updateData(List<PcapEntry> dataset) {
+        localDataSet.clear();
+        localDataSet.addAll(dataset);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return localDataSet.size();
