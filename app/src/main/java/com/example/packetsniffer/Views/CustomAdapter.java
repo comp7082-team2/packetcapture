@@ -1,5 +1,7 @@
 package com.example.packetsniffer.Views;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +60,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         PcapEntry entry = localDataSet.get(position);
         String lineText = entry.getArrivalTime() + " " + entry.getProtocol();
         viewHolder.getTextView().setText(lineText);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, PacketInfoActivity.class);
+                int index = viewHolder.getAdapterPosition();
+                // This logic may need to be modified in some way depending on how packets are filtered.
+                intent.putExtra("index", index);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
