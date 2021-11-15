@@ -14,6 +14,8 @@ import io.pkts.packet.Packet;
 import io.pkts.protocol.Protocol;
 import io.pkts.filters.FilterFactory;
 import io.pkts.filters.FilterParseException;
+import io.pkts.framer.FramerManager;
+import io.pkts.packet.Packet;
 
 public class PcapRepository {
 
@@ -27,6 +29,8 @@ public class PcapRepository {
     private Filter filter;
 
     private FilterFactory filterFactory = FilterFactory.getInstance();
+
+    private FramerManager framerManager;
 
 
     private PcapRepository() {
@@ -53,7 +57,7 @@ public class PcapRepository {
         }
     }
 
-    public void loopPcap(PacketHandler handler, Filter filter) {
+    public void loopPcap(PacketHandler handler, String filterExpression) throws IOException {
         if (pcap == null) {
             return;
         }
@@ -64,11 +68,16 @@ public class PcapRepository {
               Log.e(TAG, "Error looping over pcap", e);
           }
       } else {
-          // TODO: implement filtering, not sure where that responsibility should lie
-          /*
-           * pcap.setFilter(filter)
-           * pcap.loop(handler)
-           */
+           setFilter(filterExpression);
+           pcap.loop(new PacketHandler() {
+               @Override
+               public boolean nextPacket(final Packet packet) {
+                   if (filter != null && filter.accept(packet)) {
+                       System.out.println(packet.getPayload());
+                   }
+                   return false;
+               }
+           });
       }
     }
 
