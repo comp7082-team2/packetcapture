@@ -64,14 +64,11 @@ public class PcapRepository {
           }
       } else {
            setFilter(filterExpression);
-           pcap.loop(new PacketHandler() {
-               @Override
-               public boolean nextPacket(final Packet packet) {
-                   if (filter != null && filter.accept(packet)) {
-                       System.out.println(packet.getPayload());
-                   }
-                   return false;
+           pcap.loop(packet -> {
+               if (filter != null && filter.accept(packet)) {
+                   System.out.println(packet.getPayload());
                }
+               return false;
            });
       }
     }
