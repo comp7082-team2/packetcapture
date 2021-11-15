@@ -24,7 +24,7 @@ public class PacketInfoPresenter {
 
     public PacketInfoPresenter(int index, PacketInfoPresenter.View view) {
         pcapRepository = PcapRepository.getInstance();
-        entry = pcapRepository.getEntries().get(index);
+        entry = pcapRepository.getEntries(null).get(index);
         this.view = view;
     }
 

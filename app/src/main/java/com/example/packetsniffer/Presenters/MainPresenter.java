@@ -21,6 +21,7 @@ public class MainPresenter {
             @Override
             public void fileLoadFinish(String result){
                 Toast.makeText(context, "Successfully loaded file " + result, Toast.LENGTH_SHORT).show();
+                pcapRepository.setFilename(result);
                 pcapRepository.readPcap(result);
             }
         }).execute(uri);

@@ -1,6 +1,9 @@
 package com.example.packetsniffer.Views;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.packetsniffer.Presenters.PacketListPresenter;
 import com.example.packetsniffer.R;
 
-public class PacketListView extends AppCompatActivity {
+public class PacketListView extends AppCompatActivity implements PacketListPresenter.View {
 
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
 
@@ -29,7 +32,7 @@ public class PacketListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packet_list_view);
-        presenter = new PacketListPresenter();
+        presenter = new PacketListPresenter(this);
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -69,6 +72,24 @@ public class PacketListView extends AppCompatActivity {
         // Save currently selected layout manager.
         savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void applyFilter(View v) {
+        filterPcap();
+    }
+
+    @Override
+    public void filterPcap() {
+        EditText etFilter = (EditText) findViewById(R.id.etFilter);
+        String filterExpression = etFilter.getText().toString();
+        if (filterExpression == null || filterExpression.isEmpty() || filterExpression.equals("Enter Filter...")) {
+            Toast.makeText(this, "Please enter a filter", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (presenter.isValidFilter(filterExpression)) {
+            mAdapter.updateData(presenter.loadFilteredPcap(filterExpression));
+        }
+
     }
 
 }
