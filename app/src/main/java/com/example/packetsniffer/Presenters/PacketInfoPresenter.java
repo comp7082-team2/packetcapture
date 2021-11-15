@@ -8,7 +8,6 @@ import com.example.packetsniffer.Models.PcapRepository;
 import java.io.IOException;
 
 import io.pkts.packet.TCPPacket;
-import io.pkts.packet.TransportPacket;
 import io.pkts.packet.UDPPacket;
 import io.pkts.protocol.Protocol;
 
