@@ -8,6 +8,9 @@ import java.io.IOException;
 import io.pkts.PacketHandler;
 import io.pkts.Pcap;
 import io.pkts.filters.Filter;
+import io.pkts.filters.FilterFactory;
+import io.pkts.filters.FilterParseException;
+
 
 public class PcapRepository {
 
@@ -16,6 +19,10 @@ public class PcapRepository {
     private static String TAG = PcapRepository.class.getName();
 
     private Pcap pcap;
+
+    private Filter filter;
+
+    private FilterFactory filterFactory = FilterFactory.getInstance();
 
 
     private PcapRepository() {
@@ -34,6 +41,12 @@ public class PcapRepository {
 
     public Pcap getPcap() {
         return pcap;
+    }
+
+    public void setFilter(String expression) throws FilterParseException {
+        if (expression != null && !expression.isEmpty()) {
+            this.filter = this.filterFactory.createFilter(expression);
+        }
     }
 
     public void loopPcap(PacketHandler handler, Filter filter) {
