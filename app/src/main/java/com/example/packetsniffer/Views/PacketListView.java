@@ -1,5 +1,6 @@
 package com.example.packetsniffer.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -63,6 +64,11 @@ public class PacketListView extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(scrollPosition);
+    }
+
+    public void goToGraph(View view) {
+        Intent intent = new Intent(this, GraphActivity.class);
+        startActivity(intent);
     }
 
     @Override
