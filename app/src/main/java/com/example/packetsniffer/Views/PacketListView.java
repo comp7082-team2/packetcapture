@@ -87,7 +87,7 @@ public class PacketListView extends AppCompatActivity {
     public void filterPcap() {
         EditText etFilter = (EditText) findViewById(R.id.etFilter);
         String filterExpression = etFilter.getText().toString();
-        if (filterExpression == null || filterExpression.isEmpty() || filterExpression.equals("Enter Filter...")) {
+        if (filterExpression == null || filterExpression.isEmpty()) {
             Toast.makeText(this, "Please enter a filter", Toast.LENGTH_SHORT).show();
             return;
         }

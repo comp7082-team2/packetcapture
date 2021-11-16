@@ -10,12 +10,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.packetsniffer.Models.PcapEntry;
+import com.example.packetsniffer.Models.PcapFilter;
 import com.example.packetsniffer.R;
 
 import java.io.IOException;
 import java.util.List;
 
 import io.pkts.packet.TCPPacket;
+import io.pkts.packet.TransportPacket;
 import io.pkts.protocol.Protocol;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
@@ -73,20 +75,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        TCPPacket packet = null;
         PcapEntry entry = localDataSet.get(position);
         String src_adr = null, dst_adr = null;
-        try {
-            packet = (TCPPacket) entry.getPacket().getPacket(Protocol.TCP);
+        if (PcapFilter.isTransportPacket(entry.getPacket())) {
+            TransportPacket packet = PcapFilter.getTransportPacket(entry.getPacket());
             src_adr = packet.getSourceIP();
             dst_adr = packet.getDestinationIP();
-        } catch (IOException e) {
-            e.printStackTrace();
+            viewHolder.getSrcAdr().setText("Source: " + src_adr);
+            viewHolder.getDstAdr().setText("Destination: " + dst_adr);
         }
-        System.out.println(entry.getArrivalTime() + " " + entry.getProtocol() + " " + src_adr + " " + dst_adr);
         String lineText = entry.getArrivalTime() + " " + entry.getProtocol();
-        viewHolder.getSrcAdr().setText(src_adr);
-        viewHolder.getDstAdr().setText(dst_adr);
         viewHolder.getTextView().setText(lineText);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +92,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 Context context = v.getContext();
                 Intent intent = new Intent(context, PacketInfoActivity.class);
                 int index = viewHolder.getAdapterPosition();
-                // This logic may need to be modified in some way depending on how packets are filtered.
                 intent.putExtra("index", index);
                 intent.putExtra("filterExpression", filterString);
                 context.startActivity(intent);

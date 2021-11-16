@@ -102,7 +102,7 @@ public class PcapFilter implements Filter {
     }
 
     // TODO: figure out a better way to know if this is a transport packet, this only identifies two protocols
-    private boolean isTransportPacket(Packet packet) {
+    public static boolean isTransportPacket(Packet packet) {
         try {
             return packet.hasProtocol(Protocol.TCP) || packet.hasProtocol(Protocol.UDP);
         } catch (IOException e) {
@@ -111,7 +111,7 @@ public class PcapFilter implements Filter {
         return false;
     }
 
-    private TransportPacket getTransportPacket(Packet packet) {
+    public static TransportPacket getTransportPacket(Packet packet) {
         try {
             if (packet.hasProtocol(Protocol.TCP)) {
                 return (TCPPacket) packet.getPacket(Protocol.TCP);
