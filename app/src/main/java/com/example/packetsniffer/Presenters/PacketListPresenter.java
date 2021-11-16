@@ -9,10 +9,8 @@ import java.util.List;
 public class PacketListPresenter {
 
     private PcapRepository pcapRepository;
-    private View view;
-    public PacketListPresenter(View view) {
+    public PacketListPresenter() {
         pcapRepository = PcapRepository.getInstance();
-        this.view = view;
     }
 
     public List<PcapEntry> loadPcap() {
@@ -32,10 +30,6 @@ public class PacketListPresenter {
             }
         }
         return pcapRepository.getEntries(filter);
-    }
-
-    public interface View {
-        public void filterPcap();
     }
 
 }

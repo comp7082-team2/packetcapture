@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.packetsniffer.Presenters.PacketListPresenter;
 import com.example.packetsniffer.R;
 
-public class PacketListView extends AppCompatActivity implements PacketListPresenter.View {
+public class PacketListView extends AppCompatActivity {
 
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
 
@@ -33,7 +33,7 @@ public class PacketListView extends AppCompatActivity implements PacketListPrese
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packet_list_view);
-        presenter = new PacketListPresenter(this);
+        presenter = new PacketListPresenter();
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -84,7 +84,6 @@ public class PacketListView extends AppCompatActivity implements PacketListPrese
         filterPcap();
     }
 
-    @Override
     public void filterPcap() {
         EditText etFilter = (EditText) findViewById(R.id.etFilter);
         String filterExpression = etFilter.getText().toString();
