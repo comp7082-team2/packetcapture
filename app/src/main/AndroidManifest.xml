@@ -19,6 +19,9 @@
             android:name=".Views.PacketListView"
             android:exported="true" />
         <activity
+            android:name=".RTTGraphActivity"
+            android:exported="true" />
+        <activity
             android:name=".Views.MainActivity"
             android:exported="true" >
             <intent-filter>
