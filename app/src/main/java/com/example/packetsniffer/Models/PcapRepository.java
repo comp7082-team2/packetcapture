@@ -45,19 +45,19 @@ public class PcapRepository {
         if (pcap == null) {
             return;
         }
-      if (filter == null) {
-          try {
-              pcap.loop(handler);
-          } catch (IOException e) {
-              Log.e(TAG, "Error looping over pcap", e);
-          }
-      } else {
-          // TODO: implement filtering, not sure where that responsibility should lie
-          /*
-           * pcap.setFilter(filter)
-           * pcap.loop(handler)
-           */
-      }
+        if (filter == null) {
+            try {
+                pcap.loop(handler);
+            } catch (IOException e) {
+                Log.e(TAG, "Error looping over pcap", e);
+            }
+        } else {
+            // TODO: implement filtering, not sure where that responsibility should lie
+            /*
+            * pcap.setFilter(filter)
+            * pcap.loop(handler)
+            */
+        }
     }
 
     public List<PcapEntry> getEntries() {
