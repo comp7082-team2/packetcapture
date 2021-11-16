@@ -4,14 +4,11 @@ import android.util.Log;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import io.pkts.PacketHandler;
 import io.pkts.Pcap;
 import io.pkts.filters.Filter;
-import io.pkts.filters.FilterFactory;
-import io.pkts.filters.FilterParseException;
-import io.pkts.framer.FramerManager;
-import io.pkts.packet.Packet;
-
+import io.pkts.protocol.Protocol;
 
 public class PcapRepository {
 
@@ -23,9 +20,9 @@ public class PcapRepository {
 
     private Filter filter;
 
-    private FilterFactory filterFactory = FilterFactory.getInstance();
-
-    private FramerManager framerManager;
+    private HashMap<String, Protocol> protocolHashMap = new HashMap<String, Protocol>() {{
+                                                            put("TCP", Protocol.TCP);
+                                                            put("UDP", Protocol.UDP);}};
 
 
     private PcapRepository() {
@@ -46,30 +43,24 @@ public class PcapRepository {
         return pcap;
     }
 
-    public void setFilter(String expression) throws FilterParseException {
-        if (expression != null && !expression.isEmpty()) {
-            this.filter = this.filterFactory.createFilter(expression);
-        }
-    }
 
-    public void loopPcap(PacketHandler handler, String filterExpression) throws IOException {
+    public void loopPcap(PacketHandler handler, String protocolType) throws IOException {
         if (pcap == null) {
             return;
         }
-      if (filter == null) {
-          try {
-              pcap.loop(handler);
-          } catch (IOException e) {
-              Log.e(TAG, "Error looping over pcap", e);
-          }
-      } else {
-           setFilter(filterExpression);
-           pcap.loop(packet -> {
-               if (filter != null && filter.accept(packet)) {
-                   System.out.println(packet.getPayload());
-               }
-               return false;
-           });
+//      if (filter == null) {
+//          try {
+//              pcap.loop(handler);
+//          } catch (IOException e) {
+//              Log.e(TAG, "Error looping over pcap", e);
+//          }
+        else {
+          pcap.loop(packet -> {
+              if (packet.hasProtocol(protocolHashMap.get(protocolType))) {
+                  System.out.println(packet.getPacket(protocolHashMap.get(protocolType)).getPayload());
+              }
+              return true;
+          });
       }
     }
 
@@ -79,4 +70,8 @@ public class PcapRepository {
         }
         return repository;
     }
+
 }
+
+
+
