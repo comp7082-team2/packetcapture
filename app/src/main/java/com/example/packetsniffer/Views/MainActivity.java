@@ -12,7 +12,6 @@ import com.example.packetsniffer.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = MainActivity.class.getName();
     public static final int PICK_FILE_REQUEST_CODE = 1;
 
     private MainPresenter presenter;
