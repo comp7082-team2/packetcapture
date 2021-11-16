@@ -92,9 +92,9 @@ public class PcapFilter implements Filter {
             TransportPacket transportPacket = getTransportPacket(packet);
             if (transportPacket != null) {
                 isValidPacket = (src == null || src.equals(transportPacket.getSourceIP()))
-                    || (dst == null || dst.equals(transportPacket.getDestinationIP()))
-                    || (srcPort == null || srcPort.equals(String.valueOf(transportPacket.getSourcePort())))
-                    || (dstPort == null || dstPort.equals(String.valueOf(transportPacket.getDestinationPort())));
+                    && (dst == null || dst.equals(transportPacket.getDestinationIP()))
+                    && (srcPort == null || srcPort.equals(String.valueOf(transportPacket.getSourcePort())))
+                    && (dstPort == null || dstPort.equals(String.valueOf(transportPacket.getDestinationPort())));
             }
         }
         return isValidPacket;

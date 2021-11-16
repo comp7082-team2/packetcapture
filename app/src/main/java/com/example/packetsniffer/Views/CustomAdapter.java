@@ -22,6 +22,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private List<PcapEntry> localDataSet;
 
+    private String filterString; //HACK
+
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -59,6 +61,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      */
     public CustomAdapter(List<PcapEntry> dataSet) {
         localDataSet = dataSet;
+        filterString = null; //HACK
     }
 
     @Override
@@ -93,14 +96,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 int index = viewHolder.getAdapterPosition();
                 // This logic may need to be modified in some way depending on how packets are filtered.
                 intent.putExtra("index", index);
+                intent.putExtra("filterExpression", filterString);
                 context.startActivity(intent);
             }
         });
     }
 
-    public void updateData(List<PcapEntry> dataset) {
+    public void updateData(List<PcapEntry> dataset, String filterString) {
         localDataSet.clear();
         localDataSet.addAll(dataset);
+        this.filterString = filterString;
         notifyDataSetChanged();
     }
 

@@ -53,7 +53,7 @@ public class PcapRepository {
         pcap.loop(handler);
     }
 
-    public List<PcapEntry> getEntries(Filter filter) {
+    private List<PcapEntry> getEntriesFromFilter(Filter filter) {
         PacketListPacketHandler handler = new PacketListPacketHandler();
         try {
             this.loopPcap(handler, filter);
@@ -63,6 +63,33 @@ public class PcapRepository {
         entries = handler.getPackets();
         return entries;
 
+    }
+
+    public List<PcapEntry> getEntries(String filterExpression) {
+        if (filterExpression != null) {
+            PcapFilter filter = new PcapFilter();
+            String[] expressionArr = filterExpression.split(" && ");
+            for (String exp : expressionArr) {
+                exp = exp.trim();
+                if (exp.equals("tcp") || exp.equals("udp")) {
+                    filter.setProtocol(exp);
+                }
+                if (exp.startsWith("src ")) {
+                    filter.setSrc(exp.replace("src ", "").trim());
+                }
+                if (exp.startsWith("dst ")) {
+                    filter.setDst(exp.replace("dst ", "").trim());
+                }
+                if (exp.startsWith("srcPort ")) {
+                    filter.setSrcPort(exp.replace("srcPort ", "").trim());
+                }
+                if (exp.trim().startsWith("dstPort ")) {
+                    filter.setDstPort(exp.replace("dstPort ", "").trim());
+                }
+            }
+            return getEntriesFromFilter(filter);
+        }
+        return getEntriesFromFilter(null);
     }
 
     public static PcapRepository getInstance() {

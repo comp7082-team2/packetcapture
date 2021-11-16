@@ -92,7 +92,7 @@ public class PacketListView extends AppCompatActivity {
             return;
         }
         if (presenter.isValidFilter(filterExpression)) {
-            mAdapter.updateData(presenter.loadFilteredPcap(filterExpression));
+            mAdapter.updateData(presenter.loadFilteredPcap(filterExpression), filterExpression);
         }
 
     }
