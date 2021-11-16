@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToGraph(View view) {
-        Intent intent = new Intent(this, GraphActivity.class);
-        startActivity(intent);
-    }
-
     public void click(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
