@@ -23,7 +23,8 @@ public class PacketInfoActivity extends AppCompatActivity implements PacketInfoP
         setContentView(R.layout.activity_pack_info);
         Intent intent = getIntent();
         int index = intent.getIntExtra("index", MISSING_INDEX);
-        presenter = new PacketInfoPresenter(index, this);
+        String filterExpression = intent.getStringExtra("filterExpression");
+        presenter = new PacketInfoPresenter(index, filterExpression, this);
         presenter.displayPacket();
     }
 
