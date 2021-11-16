@@ -1,29 +1,27 @@
 package com.example.packetsniffer.Views;
 
-import com.example.packetsniffer.Models.PcapEntry;
-import com.example.packetsniffer.Models.PcapRepository;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.packetsniffer.Models.PcapEntry;
+import com.example.packetsniffer.Models.PcapRepository;
+import com.example.packetsniffer.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.io.IOException;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 
+import io.pkts.packet.Packet;
 import io.pkts.packet.TCPPacket;
 import io.pkts.protocol.Protocol;
-
-import com.example.packetsniffer.R;
 
 public class GraphActivity extends AppCompatActivity {
 
@@ -67,29 +65,23 @@ public class GraphActivity extends AppCompatActivity {
         
         pcapRepository = PcapRepository.getInstance();
         entries = pcapRepository.getEntries(null);
-        long firstTime = 0;
 
-        try {
-            TCPPacket firstPacket = (TCPPacket) entries.get(0).getPacket().getPacket(Protocol.TCP);
-            firstTime = firstPacket.getArrivalTime();
-            Log.v("testing values FT", String.valueOf(firstTime));
-        } catch (IOException e) {
-                Log.e(TAG, e.getMessage(), e);
-        }
-
+        Packet firstPacket = entries.get(0).getPacket();
+        long firstTime = firstPacket.getArrivalTime();
+        Log.v("testing values FT", String.valueOf(firstTime));
         
         for (int i=0; i < entries.size(); i++) {
             try {
                 PcapEntry entry = entries.get(i);
 
                 // if tcp packet look at it
-                if (entry.getProtocol() == TCP) {
+                if (entry.getProtocol().equals(TCP)) {
                     TCPPacket packet = (TCPPacket) entry.getPacket().getPacket(Protocol.TCP);
 
                     String sourceIP = packet.getSourceIP();
                     long time = packet.getArrivalTime();
 
-                    if(packet.isACK() && (packet.isPSH() == false )){
+                    if(packet.isACK()){
                         long ACKnum = packet.getAcknowledgementNumber();
                         Log.v("testing ACK", String.valueOf(ACKnum));
 
@@ -99,12 +91,14 @@ public class GraphActivity extends AppCompatActivity {
                             // match ack number to sequence number of original packet
                             try {
                                 PcapEntry entryOrig = entries.get(j);
-                                TCPPacket packetOrig = (TCPPacket) entryOrig.getPacket().getPacket(Protocol.TCP);
+                                if (entryOrig.getProtocol().equals(TCP)) {
+                                    TCPPacket packetOrig = (TCPPacket) entryOrig.getPacket().getPacket(Protocol.TCP);
 
-                                long SEQnum = packetOrig.getSequenceNumber();
-                                if (SEQnum == ACKnum){
-                                    timeOrig = packetOrig.getArrivalTime();
-                                    break;
+                                    long SEQnum = packetOrig.getSequenceNumber();
+                                    if (SEQnum == ACKnum) {
+                                        timeOrig = packetOrig.getArrivalTime();
+                                        break;
+                                    }
                                 }
                             } catch (IOException e) {
                                 Log.e(TAG, e.getMessage(), e);
