@@ -13,23 +13,21 @@ public class PcapRepositoryTest {
     public void readPcap() {
         String basePath = new File("").getAbsolutePath();
         pcapRepository.readPcap(basePath + "\\src\\test\\java\\com\\example\\packetsniffer\\Models\\test.pcap");
-
-        assertNotNull(pcapRepository.getPcap());
-    }
-
-    @Test
-    public void getPcap() {
-        assertNotNull(pcapRepository.getPcap());
     }
 
     @Test
     public void getEntries() {
-        assertNotNull(pcapRepository.getEntries());
+        assertNotNull(pcapRepository.getEntries("tcp"));
     }
 
     @Test
     public void getInstance() {
-        assertEquals(pcapRepository, PcapRepository.getInstance());
+        assertNotNull(PcapRepository.getInstance());
+    }
 
+    @Test
+    public void setFilename() {
+        pcapRepository.setFilename("Test File");
+        assertEquals("Test File", pcapRepository.getFilename());
     }
 }
