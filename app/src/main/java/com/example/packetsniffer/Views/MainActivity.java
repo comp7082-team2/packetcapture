@@ -12,7 +12,6 @@ import com.example.packetsniffer.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = MainActivity.class.getName();
     public static final int PICK_FILE_REQUEST_CODE = 1;
 
     private MainPresenter presenter;
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, PICK_FILE_REQUEST_CODE);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode,Intent resultData)
     {
@@ -47,7 +45,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 }

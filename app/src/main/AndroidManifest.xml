@@ -20,6 +20,9 @@
             android:name=".Views.PacketListView"
             android:exported="true" />
         <activity
+            android:name=".Views.GraphActivity"
+            android:exported="true" />
+        <activity
             android:name=".Views.MainActivity"
             android:exported="true" >
             <intent-filter>
