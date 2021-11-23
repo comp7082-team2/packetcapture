@@ -103,6 +103,10 @@ public class PcapRepository {
         this.filename = filename;
     }
 
+    public String getFilename() {
+        return this.filename;
+    }
+
     private class PacketListPacketHandler implements PacketHandler {
         private List<PcapEntry> packets;
         private Filter filter;
