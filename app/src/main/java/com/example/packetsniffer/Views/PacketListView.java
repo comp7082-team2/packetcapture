@@ -1,6 +1,10 @@
 package com.example.packetsniffer.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -64,6 +68,11 @@ public class PacketListView extends AppCompatActivity {
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
+    public void goToGraph(View view) {
+        Intent intent = new Intent(this, GraphActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save currently selected layout manager.
@@ -71,4 +80,20 @@ public class PacketListView extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    public void applyFilter(View v) {
+        filterPcap();
+    }
+
+    public void filterPcap() {
+        EditText etFilter = (EditText) findViewById(R.id.etFilter);
+        String filterExpression = etFilter.getText().toString();
+        if (filterExpression == null || filterExpression.isEmpty()) {
+            Toast.makeText(this, "Please enter a filter", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (presenter.isValidFilter(filterExpression)) {
+            mAdapter.updateData(presenter.loadFilteredPcap(filterExpression), filterExpression);
+        }
+
+    }
 }
