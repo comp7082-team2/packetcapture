@@ -1,21 +1,10 @@
-package com.example.packetsniffer.Views;
+package com.example.packetsniffer.Models;
 
-import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.packetsniffer.Models.PcapEntry;
-import com.example.packetsniffer.Models.PcapRepository;
-import com.example.packetsniffer.Presenters.GraphPresenter;
-import com.example.packetsniffer.R;
+import com.example.packetsniffer.Views.GraphActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,56 +14,17 @@ import io.pkts.packet.Packet;
 import io.pkts.packet.TCPPacket;
 import io.pkts.protocol.Protocol;
 
-public class GraphActivity extends AppCompatActivity {
-    LineChart rttChart;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rtt_graph);
-        GraphPresenter gp = new GraphPresenter();
-        View rrtChart = findViewById(R.id.rttChart);
-        gp.setUpGraph(rrtChart);
-    }
-    /*
+public class PcapGraph {
     private static final String TAG = GraphActivity.class.getName();
-
-    private PcapRepository pcapRepository;
-    private List<PcapEntry> entries;
-
     private static final String TCP = "TCP";
-
-    LineChart rttChart;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rtt_graph);
-
-        rttChart = findViewById(R.id.rttChart);
-        LineDataSet lineDataSet = new LineDataSet(lineChartDataSet(),"data set");
-        ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
-        iLineDataSets.add(lineDataSet);
-
-        LineData lineData = new LineData(iLineDataSets);
-        rttChart.setData(lineData);
-        rttChart.invalidate();
-
-        rttChart.setNoDataText("Data not Available");
-
-        lineDataSet.setColor(Color.BLUE);
-        lineDataSet.setCircleColor(Color.GREEN);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setLineWidth(5);
-        lineDataSet.setCircleRadius(8);
-        lineDataSet.setCircleHoleRadius(8);
-        lineDataSet.setValueTextSize(10);
-        lineDataSet.setValueTextColor(Color.BLACK);
-    }
-
-
-    private ArrayList<Entry> lineChartDataSet() {
+    public ArrayList<Entry> lineChartDataSet() {
         ArrayList<Entry> packets = new ArrayList<Entry>();
+        PcapRepository pcapRepository;
+        List<PcapEntry> entries;
 
+
+
+        LineChart rttChart;
         pcapRepository = PcapRepository.getInstance();
         entries = pcapRepository.getEntries(null);
 
@@ -137,6 +87,4 @@ public class GraphActivity extends AppCompatActivity {
 
         return packets;
     }
-
-     */
 }
