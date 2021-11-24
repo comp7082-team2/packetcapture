@@ -2,8 +2,6 @@ package com.example.packetsniffer.Models;
 
 import android.util.Log;
 
-import com.example.packetsniffer.Views.GraphActivity;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 import java.io.IOException;
@@ -15,23 +13,18 @@ import io.pkts.packet.TCPPacket;
 import io.pkts.protocol.Protocol;
 
 public class PcapGraph {
-    private static final String TAG = GraphActivity.class.getName();
+    private static final String TAG = PcapGraph.class.getName();
     private static final String TCP = "TCP";
     public ArrayList<Entry> lineChartDataSet() {
         ArrayList<Entry> packets = new ArrayList<Entry>();
         PcapRepository pcapRepository;
         List<PcapEntry> entries;
 
-
-
-        LineChart rttChart;
         pcapRepository = PcapRepository.getInstance();
         entries = pcapRepository.getEntries(null);
 
         Packet firstPacket = entries.get(0).getPacket();
         long firstTime = firstPacket.getArrivalTime();
-        Log.v("testing values FT", String.valueOf(firstTime));
-
         for (int i=0; i < entries.size(); i++) {
             try {
                 PcapEntry entry = entries.get(i);
@@ -39,13 +32,10 @@ public class PcapGraph {
                 // if tcp packet look at it
                 if (entry.getProtocol().equals(TCP)) {
                     TCPPacket packet = (TCPPacket) entry.getPacket().getPacket(Protocol.TCP);
-
-                    String sourceIP = packet.getSourceIP();
                     long time = packet.getArrivalTime();
 
                     if(packet.isACK()){
                         long ACKnum = packet.getAcknowledgementNumber();
-                        Log.v("testing ACK", String.valueOf(ACKnum));
 
                         // Set time variable for original packet (ie, packet that is being ACK'd)
                         long timeOrig = 0;
@@ -73,7 +63,7 @@ public class PcapGraph {
                             long captureTime = time - firstTime;
                             Log.v("testing values", String.valueOf(new StringBuilder(String.valueOf(captureTime/1000)).append(" ").append(diffTime)));
 
-                            packets.add(new Entry(captureTime/1000,diffTime));
+                            packets.add(new Entry(captureTime/1000, diffTime));
                         }
                     }
                 }
