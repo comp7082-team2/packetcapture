@@ -3,16 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/kshti/OneDrive/Desktop/BCIT/Btech/Term 1/COMP7082/packetcapture/app/src/main/res/layout/activity_packet_list_view.xml" value="0.13072916666666667" />
+=======
+        <entry key="..\:/Users/kshti/OneDrive/Desktop/BCIT/Btech/Term 1/COMP7082/packetcapture/app/src/main/res/layout/activity_pack_info.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/kshti/OneDrive/Desktop/BCIT/Btech/Term 1/COMP7082/packetcapture/app/src/main/res/layout/activity_packet_list_view.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/kshti/OneDrive/Desktop/BCIT/Btech/Term 1/COMP7082/packetcapture/app/src/main/res/layout/text_row_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Documents/School/BCIT/2021-FALL/7082 Software Engineering/project/packetcapture/app/src/main/res/layout/activity_main.xml" value="0.38385416666666666" />
+        <entry key="..\:/Documents/School/BCIT/2021-FALL/7082 Software Engineering/project/packetcapture/app/src/main/res/layout/activity_pack_info.xml" value="0.38385416666666666" />
+        <entry key="..\:/Documents/School/BCIT/2021-FALL/7082 Software Engineering/project/packetcapture/app/src/main/res/layout/activity_packet_list_view.xml" value="0.8333333333333334" />
+        <entry key="..\:/Documents/School/BCIT/2021-FALL/7082 Software Engineering/project/packetcapture/app/src/main/res/layout/activity_rtt_graph.xml" value="0.3333333333333333" />
+>>>>>>> a356ddb6627b94db38e43caf8eb31dd67c1b9cbe
         <entry key="..\:/ws/packetsniffer/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/drawable/ic_baseline_wifi_24.xml" value="0.3828125" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/layout/activity_packet_list_view.xml" value="0.1619047619047619" />
         <entry key="..\:/ws/packetsniffer/app/src/main/res/layout/text_row_item.xml" value="0.20520833333333333" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/activity_packet_list_view.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/text_row_item.xml" value="0.21770833333333334" />
+        <entry key="app/src/main/res/layout/activity_pack_info.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/activity_packet_list_view.xml" value="0.19739583333333333" />
       </map>
     </option>
   </component>
