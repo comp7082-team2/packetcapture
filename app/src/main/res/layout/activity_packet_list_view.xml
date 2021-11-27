@@ -57,6 +57,4 @@
         android:onClick="goToGraph"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
->>>>>>> a356ddb6627b94db38e43caf8eb31dd67c1b9cbe
 </androidx.constraintlayout.widget.ConstraintLayout>

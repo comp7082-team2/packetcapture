@@ -23,5 +23,8 @@
     <string name="finish">Finish</string>
     <string name="src_adr">src_adr</string>
     <string name="dst_adr">dst_adr</string>
+<<<<<<< HEAD
     <string name="rtt_graph">RTT Graph</string>
+=======
+>>>>>>> fb6759747a4e1ed927f9b0a5ee346a07ce29f07c
 </resources>
