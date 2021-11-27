@@ -72,8 +72,11 @@ public class PcapFilter implements Filter {
 
     @Override
     public boolean accept(Packet packet) throws FilterException {
+        return this.isValidProtocol(packet) && this.isValidAddress(packet);
+    }
+
+    private boolean isValidProtocol(Packet packet) {
         boolean isValidProtocol = protocol == null;
-        boolean isValidAddress = src == null && dst == null && srcPort == null && dstPort == null;
         if (protocol != null) {
             if (protocol.equals("tcp")) {
                 try {
@@ -89,16 +92,22 @@ public class PcapFilter implements Filter {
                 }
             }
         }
+        return isValidProtocol;
+    }
+
+    private boolean isValidAddress(Packet packet) {
+        boolean isValidAddress = src == null && dst == null && srcPort == null && dstPort == null;
+
         if (isTransportPacket(packet)) {
             TransportPacket transportPacket = getTransportPacket(packet);
             if (transportPacket != null) {
                 isValidAddress = (src == null || src.equals(transportPacket.getSourceIP()))
-                    && (dst == null || dst.equals(transportPacket.getDestinationIP()))
-                    && (srcPort == null || srcPort.equals(String.valueOf(transportPacket.getSourcePort())))
-                    && (dstPort == null || dstPort.equals(String.valueOf(transportPacket.getDestinationPort())));
+                        && (dst == null || dst.equals(transportPacket.getDestinationIP()))
+                        && (srcPort == null || srcPort.equals(String.valueOf(transportPacket.getSourcePort())))
+                        && (dstPort == null || dstPort.equals(String.valueOf(transportPacket.getDestinationPort())));
             }
         }
-        return isValidProtocol && isValidAddress;
+        return isValidAddress;
     }
 
     // TODO: figure out a better way to know if this is a transport packet, this only identifies two protocols
