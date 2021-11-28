@@ -38,6 +38,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,6 +63,10 @@ public class PacketCaptureTest {
     public GrantPermissionRule internetPermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
     @BeforeClass
+    /**
+     * Static method that runs before all the tests in this class. Copies a file from resources
+     * that can be used for test data
+     **/
     public static void setUp() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         try {
@@ -77,23 +82,27 @@ public class PacketCaptureTest {
         }
     }
 
+    @AfterClass
+    /**
+     * Static method that runs after all the tests in this class. Deletes any files
+     * in the Documents directory whose filename is espresso.pcap
+     */
+    public static void tearDown() {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(dir, "espresso.pcap");
+
+        if(file.exists()){
+            file.delete();
+        }
+    }
+
     @Test
     /**
      * Tests for successful pcap import by checking for recycler view in "Packet
      * Captures" View
      */
     public void loadPacketCaptureTest() {
-        // ViewInteraction materialButton = onView(
-        //         allOf(withId(R.id.btnImport), withText("Import PCAP"),
-        //                 childAtPosition(
-        //                         childAtPosition(
-        //                                 withClassName(is(
-        //                                         "android.widget.TableLayout")),
-        //                                 1),
-        //                         0),
-        //                 isDisplayed()));
-        // materialButton.perform(click());
-
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
                         childAtPosition(
@@ -117,17 +126,6 @@ public class PacketCaptureTest {
      * Tests detail view of individual packets from imported pcap file
      */
     public void packetDetailTest() {
-        // ViewInteraction materialButton = onView(
-        //         allOf(withId(R.id.btnImport), withText("Import PCAP"),
-        //                 childAtPosition(
-        //                         childAtPosition(
-        //                                 withClassName(is(
-        //                                         "android.widget.TableLayout")),
-        //                                 1),
-        //                         0),
-        //                 isDisplayed()));
-        // materialButton.perform(click());
-
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
                         childAtPosition(
@@ -243,17 +241,6 @@ public class PacketCaptureTest {
      * Tests "src" filter from imported pcap file
      */
     public void packetCaptureTest_SrcFilter() {
-        // ViewInteraction materialButton = onView(
-        //         allOf(withId(R.id.btnImport), withText("Import PCAP"),
-        //                 childAtPosition(
-        //                         childAtPosition(
-        //                                 withClassName(is(
-        //                                         "android.widget.TableLayout")),
-        //                                 1),
-        //                         0),
-        //                 isDisplayed()));
-        // materialButton.perform(click());
-
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
                         childAtPosition(
@@ -323,17 +310,6 @@ public class PacketCaptureTest {
      * Tests && logic using dst and protocol fields in imported pcap file
      */
     public void packetCaptureTest_DstAndProtocolFilter() {
-        // ViewInteraction materialButton = onView(
-        //         allOf(withId(R.id.btnImport), withText("Import PCAP"),
-        //                 childAtPosition(
-        //                         childAtPosition(
-        //                                 withClassName(is(
-        //                                         "android.widget.TableLayout")),
-        //                                 1),
-        //                         0),
-        //                 isDisplayed()));
-        // materialButton.perform(click());
-
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
                         childAtPosition(
@@ -404,17 +380,6 @@ public class PacketCaptureTest {
      * Tests if RTT Graph loads from imported pcap file
      */
     public void graphTest() {
-        // ViewInteraction materialButton = onView(
-        //         allOf(withId(R.id.btnImport), withText("Import PCAP"),
-        //                 childAtPosition(
-        //                         childAtPosition(
-        //                                 withClassName(is(
-        //                                         "android.widget.TableLayout")),
-        //                                 1),
-        //                         0),
-        //                 isDisplayed()));
-        // materialButton.perform(click());
-
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
                         childAtPosition(
@@ -451,6 +416,12 @@ public class PacketCaptureTest {
         recyclerView.check(matches(isDisplayed()));
     }
 
+    /**
+     * Copies a pcap from resources to the file system with the name espresso.pcap
+     * to be used as test data
+     * @param context The context the tests will be executing in
+     * @param resId   The resource that will be copied to the file system
+     */
     public static void copyResources(Context context, int resId) throws IOException {
         InputStream inputStream = context.getResources().openRawResource(resId);
         File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
