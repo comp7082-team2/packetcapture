@@ -16,6 +16,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
@@ -27,11 +28,12 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.packetsniffer.Models.PcapRepository;
 import com.example.packetsniffer.R;
 
-// import org.apache.commons.io.IOUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -43,13 +45,10 @@ import org.junit.runner.RunWith;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.nio.file.Files;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -59,6 +58,8 @@ public class PacketCaptureTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    @Rule
+    public GrantPermissionRule internetPermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {
@@ -452,26 +453,24 @@ public class PacketCaptureTest {
 
     public static void copyResources(Context context, int resId) throws IOException {
         InputStream inputStream = context.getResources().openRawResource(resId);
-        File file = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-
+        File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(dir, "espresso.pcap");
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        for (int length; (length = inputStream.read(buffer)) != -1; ) {
-            result.write(buffer, 0, length);
-        }
-        String body = result.toString();
 
         FileOutputStream outputStream = null;
         try {
+            int read = 0;
             outputStream = new FileOutputStream(file);
-            byte[] strToBytes = body.getBytes();
-            outputStream.write(strToBytes);
-
+            while((read = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer,0,read);
+            }
             outputStream.close();
+            PcapRepository.getInstance().readPcap(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
