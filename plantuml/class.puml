@@ -1,0 +1,82 @@
+@startuml
+
+'io.pkts
+class io.pkts.packet.Packet
+class io.pkts.protocol.Protocol
+class io.pkts.Pcap
+
+'Utils
+class FileLoader
+
+class android.os.AsyncTask
+
+'Models
+class PcapEntry
+
+class PcapRepository
+
+class PcapFilter
+
+class PcapGraph
+
+'Views
+class android.app.Activity
+
+class MainActivity
+
+class GraphActivity
+
+class PacketInfoActivity
+
+class PacketListView
+
+class androidx.recyclerview.widget.RecyclerView.Adapter
+
+class CustomAdapter
+
+'Presenters
+class MainPresenter
+
+class GraphPresenter
+
+class PacketInfoPresenter
+
+interface PacketInfoPresenter.View
+
+class PacketListPresenter
+
+'Relationships
+'io.pkts
+io.pkts.packet.Packet o-- io.pkts.protocol.Protocol
+'Utils
+android.os.AsyncTask <|-- FileLoader
+'Activities
+android.app.Activity <|-- MainActivity
+android.app.Activity <|-- GraphActivity
+android.app.Activity <|-- PacketListView
+android.app.Activity <|-- PacketInfoActivity
+PacketInfoPresenter.View <|-- PacketInfoActivity
+MainActivity o-- MainPresenter
+GraphActivity o-- GraphPresenter
+PacketInfoActivity o-- PacketInfoPresenter
+PacketListView o-- PacketListPresenter
+PacketListView o-- CustomAdapter
+'Widgets
+androidx.recyclerview.widget.RecyclerView.Adapter <|-- CustomAdapter
+CustomAdapter o-- PcapEntry
+'Presenters
+MainPresenter o-- PcapRepository
+MainPresenter o-- FileLoader
+PacketInfoPresenter o-- PcapRepository
+PacketInfoPresenter o-- PacketInfoPresenter.View
+PacketListPresenter o-- PcapRepository
+GraphPresenter o-- PcapGraph
+
+'Models
+PcapRepository o-- PcapEntry
+PcapRepository o-- PcapFilter
+PcapRepository o-- io.pkts.Pcap
+PcapEntry o-- io.pkts.packet.Packet
+
+
+@enduml
