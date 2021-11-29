@@ -11,8 +11,7 @@ public class PcapRepositoryTest {
 
     @Test
     public void readPcap() {
-        String basePath = new File("").getAbsolutePath();
-        pcapRepository.readPcap(basePath + "\\src\\test\\java\\com\\example\\packetsniffer\\Models\\test.pcap");
+        pcapRepository.readPcap("src/main/res/test.pcap");
     }
 
     @Test
