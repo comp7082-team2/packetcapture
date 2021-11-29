@@ -1,11 +1,9 @@
 package com.example.packetsniffer.Models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
-import java.io.File;
-import java.math.BigInteger;
 
 public class PcapRepositoryTest {
     PcapRepository pcapRepository = PcapRepository.getInstance();

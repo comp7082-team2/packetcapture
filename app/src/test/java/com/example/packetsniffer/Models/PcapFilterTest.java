@@ -1,10 +1,9 @@
 package com.example.packetsniffer.Models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import java.io.File;
 
 public class PcapFilterTest {
     PcapFilter pcapFilter = new PcapFilter();
