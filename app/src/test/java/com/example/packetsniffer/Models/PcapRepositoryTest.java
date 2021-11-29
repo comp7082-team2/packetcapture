@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.io.File;
+import java.math.BigInteger;
 
 public class PcapRepositoryTest {
     PcapRepository pcapRepository = PcapRepository.getInstance();
@@ -16,7 +17,9 @@ public class PcapRepositoryTest {
 
     @Test
     public void getEntries() {
-        assertNotNull(pcapRepository.getEntries("tcp"));
+        PcapEntry firstEntry = pcapRepository.getEntries("tcp").get(1);
+        System.out.println(firstEntry.getProtocol());
+        assertEquals("TCP", firstEntry.getProtocol());
     }
 
     @Test
