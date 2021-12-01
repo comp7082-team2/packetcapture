@@ -65,7 +65,7 @@ public class ElapsedPerformanceTest {
     public static void setUp() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         try {
-            copyResources(context, R.raw.ssh_server);
+            copyResources(context, R.raw.performance_test);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,6 @@ public class ElapsedPerformanceTest {
         Double perfThreshold = 3000.00;
 
         long startTime = System.nanoTime()/1000000;
-        //Log.i(TAG, "elapsedLoadPacketListView start time: " + startTime);
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
@@ -115,9 +114,8 @@ public class ElapsedPerformanceTest {
         materialButton2.perform(click());
 
         long endTime = System.nanoTime()/1000000;
-        //Log.i(TAG, "elapsedLoadPacketListView fin time: " + endTime);
         long elapsedTime = (endTime - startTime);
-        //Log.i(TAG, "elapsedLoadPacketListView elapsed time: " + elapsedTime);
+        Log.i(TAG, "elapsedLoadPacketListView elapsed time: " + elapsedTime);
 
         assertTrue(perfThreshold > elapsedTime);
     }
@@ -131,7 +129,6 @@ public class ElapsedPerformanceTest {
         Double perfThreshold = 5000.00;
 
         long startTime = System.nanoTime()/1000000;
-        //Log.i(TAG, "elapsedLoadGraph start time: " + startTime);
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btnAnalyze), withText("Packet Captures"),
@@ -155,9 +152,8 @@ public class ElapsedPerformanceTest {
         floatingActionButton.perform(click());
 
         long endTime = System.nanoTime()/1000000;
-        //Log.i(TAG, "elapsedLoadGraph fin time: " + endTime);
         long elapsedTime = (endTime - startTime);
-        //Log.i(TAG, "elapsedLoadGraph elapsed time: " + elapsedTime);
+        Log.i(TAG, "elapsedLoadGraph elapsed time: " + elapsedTime);
 
         assertTrue(perfThreshold > elapsedTime);
     }
