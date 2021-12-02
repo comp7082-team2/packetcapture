@@ -2,6 +2,7 @@ package com.example.packetsniffer.Models;
 
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class PcapRepository {
     private Pcap pcap;
 
     private String filename;
+    private File file;
 
     private List<PcapEntry> entries;
 
@@ -34,11 +36,23 @@ public class PcapRepository {
 
     public void readPcap(String filename) {
         try {
+            this.filename = filename;
             pcap = Pcap.openStream(filename);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "File not found: " + filename, e);
         } catch (IOException e) {
             Log.e(TAG, "Error opening File: " + filename, e);
+        }
+    }
+
+    public void readPcap(File file) {
+        try {
+            this.file = file;
+            pcap = Pcap.openStream(file);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "File not found: " + file.getName(), e);
+        } catch (IOException e) {
+            Log.e(TAG, "Error opening File: " + file.getName(), e);
         }
     }
 
@@ -49,6 +63,8 @@ public class PcapRepository {
         handler.setFilter(filter);
         if(filename != null) {
             readPcap(filename);
+        } else if (file != null) {
+            readPcap(file);
         }
         pcap.loop(handler);
     }
@@ -101,6 +117,10 @@ public class PcapRepository {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public String getFilename() {
+        return this.filename;
     }
 
     private class PacketListPacketHandler implements PacketHandler {
