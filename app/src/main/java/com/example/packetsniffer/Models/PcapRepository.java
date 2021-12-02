@@ -108,6 +108,10 @@ public class PcapRepository {
         return getEntriesFromFilter(null);
     }
 
+    public List<PcapEntry> getEntries() {
+        return entries;
+    }
+
     public static PcapRepository getInstance() {
         if (repository == null) {
             repository = new PcapRepository();
