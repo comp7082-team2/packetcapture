@@ -26,7 +26,7 @@
                 android:layout_margin="10dp"
                 android:drawableBottom="@drawable/ic_baseline_wifi_24"
                 android:text="@string/capture"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="@style/Widget.MaterialComponents.Button" />
 
             <Button
                 android:id="@+id/btnAnalyze"
@@ -34,7 +34,7 @@
                 android:drawableBottom="@drawable/ic_baseline_insights_24"
                 android:onClick="goToAnalyze"
                 android:text="@string/packet_captures"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="@style/Widget.MaterialComponents.Button" />
         </TableRow>
 
         <TableRow
@@ -47,14 +47,14 @@
                 android:drawableBottom="@drawable/ic_baseline_import_export_24"
                 android:text="@string/import_pcap"
                 android:onClick="click"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="@style/Widget.MaterialComponents.Button" />
 
             <Button
                 android:id="@+id/btnExport"
                 android:layout_margin="10dp"
                 android:drawableBottom="@drawable/ic_baseline_import_export_24"
                 android:text="@string/export_pcap"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="@style/Widget.MaterialComponents.Button" />
         </TableRow>
 
     </TableLayout>
