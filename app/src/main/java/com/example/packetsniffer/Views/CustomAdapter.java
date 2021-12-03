@@ -13,16 +13,13 @@ import com.example.packetsniffer.Models.PcapEntry;
 import com.example.packetsniffer.Models.PcapFilter;
 import com.example.packetsniffer.R;
 
-import java.io.IOException;
 import java.util.List;
 
-import io.pkts.packet.TCPPacket;
 import io.pkts.packet.TransportPacket;
-import io.pkts.protocol.Protocol;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
-    private List<PcapEntry> localDataSet;
+    private final List<PcapEntry> localDataSet;
 
     private String filterString; //HACK
 
@@ -81,8 +78,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             TransportPacket packet = PcapFilter.getTransportPacket(entry.getPacket());
             src_adr = packet.getSourceIP();
             dst_adr = packet.getDestinationIP();
-            viewHolder.getSrcAdr().setText("Source: " + src_adr);
-            viewHolder.getDstAdr().setText("Destination: " + dst_adr);
+            viewHolder.getSrcAdr().setText(String.format("Source: %s", src_adr));
+            viewHolder.getDstAdr().setText(String.format("Destination: %s", dst_adr));
         }
         String lineText = entry.getArrivalTime() + " " + entry.getProtocol();
         viewHolder.getTextView().setText(lineText);

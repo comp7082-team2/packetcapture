@@ -2,6 +2,24 @@
     <string name="app_name">Packet Analyzer</string>
     <string name="element_text">192.168.0.22:56278 > 192.168.0.23:443</string>
     <string name="title_activity_packet_info">PacketInfoActivity</string>
-    <string name="src_adr">src_adr</string>
-    <string name="dst_adr">dst_adr</string>
+    <string name="enter_filter">Enter Filter…</string>
+    <string name="stop">STOP</string>
+    <string name="packet_captures">Packet Captures</string>
+    <string name="capture">Capture</string>
+    <string name="import_pcap">Import PCAP</string>
+    <string name="export_pcap">Export PCAP</string>
+    <string name="arrival_time">Arrival Time</string>
+    <string name="_00000">00000</string>
+    <string name="protocol">Protocol</string>
+    <string name="src">Src</string>
+    <string name="_0_0_0_0">0.0.0.0</string>
+    <string name="port">Port</string>
+    <string name="dst">Dst</string>
+    <string name="flags">Flags</string>
+    <string name="sqr_brckts">[ ]</string>
+    <string name="ack">Ack #</string>
+    <string name="_0">0</string>
+    <string name="seq">Seq #</string>
+    <string name="finish">Finish</string>
+    <string name="rtt_graph">RTT Graph</string>
 </resources>
